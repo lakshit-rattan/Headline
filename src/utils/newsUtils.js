@@ -10,20 +10,26 @@ const axiosInstance = axios.create({
   }
 });
 
-export const fetchNews = async () => {
+export const fetchNews = async (option) => {
   const today = new Date().toISOString().split('T')[0];
   try {
-    const response = await axiosInstance.post(API_URL, {}, {
-      params: {
-        endpoint: 'everything',
-        q: 'tesla',
-        to: today,
-        from: '2024-10-13',
-        sortBy: 'publishedAt',
-        language: 'en',
-        apiKey: '5c659f698d0549b0895d0fcb6ba84e20',
-      }
-    });
+    const response = await axiosInstance.post(
+      API_URL,
+      {},
+      {
+        params: {
+          endpoint: 'everything',
+          q: option,
+          from: '2024-10-19',
+          sortBy: option === 'apple' ? 'popularity' : 'publishedAt',
+          ...(option === 'apple' && {to: today}),
+          ...(option === 'apple' && {
+            apiKey: '5c659f698d0549b0895d0fcb6ba84e20',
+          }),
+        },
+      },
+    );
+
     return response.data.articles.slice(0, 100);
   } catch (error) {
     console.error('Error fetching news:', error.response ? error.response.data : error.message);

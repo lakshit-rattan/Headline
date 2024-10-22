@@ -2,37 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Alert } from 'react-native';
-import SplashScreen from './src/screens/SplashScreen';
-import NewsFeedScreen from './src/screens/NewsFeedScreen';
-import { fetchNews as fetchTeslaNews, fetchAppleNews, storeNews } from './src/utils/newsUtils'; // Updated import
+import { fetchNews, storeNews } from './src/utils/newsUtils';
+import { NewsFeedScreen, SplashScreen } from './src/screens';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-
+  // Change the value of this fetchOption with accordance to the API you want to call
+  const fetchOption = 'tesla' || 'apple';
   useEffect(() => {
-    const fetchAndStoreNews = async () => {
+      const fetchAndStoreNews = async () => {
       try {
-        // Fetch Tesla News
-        const teslaNews = await fetchTeslaNews();
-        if (teslaNews.length > 0) {
-          await storeNews(teslaNews, 'teslaNews');
+        const news = await fetchNews(fetchOption);
+        if (news.length > 0) {
+          await storeNews(news, 'news');
         }
 
-        // Fetch Apple News
-        // const appleNews = await fetchAppleNews();
-        // if (appleNews.length > 0) {
-        //   await storeNews(appleNews, 'appleNews');
-        // }
-
-        if (teslaNews?.length === 0 
-            // && appleNews?.length === 0
-        ) {
+        if (news?.length === 0) {
           Alert.alert(
-            "Network Error",
-            "Unable to fetch news. Please check your internet connection and try again.",
-            [{ text: "OK" }]
+            'Network Error',
+            'Unable to fetch news. Please check your internet connection and try again.',
+            [{text: 'OK'}],
           );
         }
       } catch (error) {
@@ -58,7 +49,9 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
-        <Stack.Screen name="NewsFeed" component={NewsFeedScreen} />
+        <Stack.Screen name="NewsFeed">
+        {(props) => <NewsFeedScreen {...props} fetchOption={fetchOption} />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
