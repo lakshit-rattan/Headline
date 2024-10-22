@@ -1,0 +1,30 @@
+1.
+Initial Commit: Project Setup
+Message: "Initial project setup with basic components"
+Files: App.js
+
+2.
+Feature: Fetch and Store News
+Message: "Implement fetching and storing news data"
+Files: newsUtils.js (changes related to fetching and storing news)
+Files: App.js (changes related to fetching and storing news on app startup)
+
+3.
+Feature: Display News Feed
+Message: "Create news feed UI and display initial headlines"
+Files: NewsFeedScreen.js (changes related to creating the news feed layout and displaying headlines)
+
+4.
+Feature: Pinned Headlines
+Message: "Implement pinning and unpinning headlines"
+Files: NewsFeedScreen.js (changes related to adding pin/unpin functionality)
+
+5.
+Feature: Automatic Updates
+Message: "Implement automatic updates for news feed"
+Files: NewsFeedScreen.js (changes related to setting up the timer and updating headlines)
+
+6.
+Bug Fixes and Improvements
+Message: "Fix issues with duplicate pinned headlines"
+Files: NewsFeedScreen.js (changes related to fixing the duplicate issue)
